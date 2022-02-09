@@ -68,7 +68,9 @@ runs:
         $poetry_ config virtualenvs.path ${{ inputs.virtualenvs-path }}
 
         # Install plugins from whitespace or commas-delimited list
-        plugins=(`echo $${{ inputs.plugins }} | tr ',' ' '`)
+        echo "** Plugins to install:"
+        echo ${{ inputs.plugins }}
+        plugins=(`echo ${{ inputs.plugins }} | tr ',' ' '`)
         for plugin in "${plugins[@]}"
         do
             echo "Installing plugin: $plugin"
