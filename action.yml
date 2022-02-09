@@ -69,7 +69,7 @@ runs:
 
         # Install plugins from whitespace or commas-delimited list
         plugins=(`echo "${{ inputs.plugins }}" | tr ',' ' '`)
-        if [ ${#plugarray[@]} -gt 0 ]; then
+        if [ ${#plugins[@]} -gt 0 ]; then
           echo "Found ${#plugins[@]} plugin(s) to install.."
 
           for plugin in "${plugins[@]}"
@@ -78,7 +78,7 @@ runs:
               $poetry_ plugin add $plugin
           done 
         else
-          echo "No plugins to install"
+          echo "No plugins to install."
         fi
 
         config="$($poetry_ config --list)"
