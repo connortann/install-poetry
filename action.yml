@@ -68,16 +68,18 @@ runs:
         $poetry_ config virtualenvs.path ${{ inputs.virtualenvs-path }}
 
         # Install plugins from whitespace or commas-delimited list
-        echo "** Input plugins to install: ${{ inputs.plugins }}"
         plugins=(`echo "${{ inputs.plugins }}" | tr ',' ' '`)
+        if [ ${#plugarray[@]} -gt 0 ]; then
+          echo "Found ${#plugins[@]} plugin(s) to install.."
 
-        echo "Number of plugins parsed: ${#plugins[@]}"
-        
-        for plugin in "${plugins[@]}"
-        do
-            echo "Installing plugin: $plugin"
-            $poetry_ install $plugin
-        done 
+          for plugin in "${plugins[@]}"
+          do
+              echo "Installing plugin: $plugin"
+              $poetry_ plugin add $plugin
+          done 
+        else
+          echo "No plugins to install"
+        fi
 
         config="$($poetry_ config --list)"
 
