@@ -28,6 +28,9 @@ inputs:
   installation-arguments:
     description: "Arguments passed directly to the Poetry installation script. For example --force."
     required: false
+  plugins:
+    description: "Comma- or whitespace-delimited list of poetry plugins to install"
+    required: false
 runs:
   using: "composite"
   steps:
@@ -63,6 +66,14 @@ runs:
         $poetry_ config virtualenvs.create ${{ inputs.virtualenvs-create }}
         $poetry_ config virtualenvs.in-project ${{ inputs.virtualenvs-in-project }}
         $poetry_ config virtualenvs.path ${{ inputs.virtualenvs-path }}
+
+        # Install plugins from whitespace or commas-delimited list
+        plugins=(`echo $${{ inputs.plugins }} | tr ',' ' '`)
+        for plugin in "${plugins[@]}"
+        do
+            echo "Installing plugin: $plugin"
+            $poetry_ install $plugin
+        done 
 
         config="$($poetry_ config --list)"
 
