@@ -177,7 +177,7 @@ jobs:
           assert_in  "1.1.7"                            "$(poetry --version)"
           assert_in  "false"                            "$(poetry config virtualenvs.create)"
           assert_in  "true"                             "$(poetry config virtualenvs.in-project)"
-          assert_in  "/home/runner/.cache/virtualenvs"  "$(poetry config virtualenvs.path)"
+          assert_in  ".cache/virtualenvs"               "$(poetry config virtualenvs.path)"
           assert_in  "false"                            "$(poetry config installer.parallel)"
 
   test-installation-arguments-version-unspecified:
